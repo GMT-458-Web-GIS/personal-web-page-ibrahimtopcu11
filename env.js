@@ -1,5 +1,3 @@
-<!-- env.js -->
-<script>
 
 window.ENV = {
   NAME: "İbrahim",
@@ -7,17 +5,10 @@ window.ENV = {
   UNIVERSITY: "Hacettepe Üniversitesi",
   DEPARTMENT: "Geomatik Mühendisliği",
   HOBBIES: ["Sinema izlemek", "Oyun oynamak", "Bisiklet sürmek"],
-
-
-  MAP: {
-    center: [32.8597, 39.9334], 
-    zoom: 6
-  },
-
+  MAP: { center: [32.8597, 39.9334], zoom: 6 },
   SOCIAL: {
-    INSTAGRAM: ,
-    LINKEDIN:  ,
-    GITHUB:    
+    INSTAGRAM: "",  
+    LINKEDIN:  "",
+    GITHUB:    ""
   }
 };
-</script>

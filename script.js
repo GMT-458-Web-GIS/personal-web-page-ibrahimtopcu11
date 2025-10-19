@@ -1,19 +1,16 @@
-<!-- script.js -->
-<script>
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('page-loaded');
 
-
-  const path = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav a').forEach(a => {
-    const href = a.getAttribute('href');
-    if ((path === '' && href === 'index.html') || href === path) {
+    const url = a.getAttribute('href');
+
+    const path = (location.pathname.split('/').pop() || 'index.html');
+    if ((path === '' && url === 'index.html') || url === path) {
       a.classList.add('active');
     }
 
     a.addEventListener('click', (e) => {
-      const url = a.getAttribute('href');
       if (url && !url.startsWith('#')) {
         e.preventDefault();
         document.body.classList.add('page-leave');
@@ -22,10 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const hobbyWrap = document.querySelector('[data-hobbies]');
-  if (hobbyWrap && window.ENV?.HOBBIES) {
+
+  const E = window.ENV || {};
+  const qs = (sel) => document.querySelector(sel);
+
+
+  const hobbyWrap = qs('[data-hobbies]');
+  if (hobbyWrap && Array.isArray(E.HOBBIES)) {
     hobbyWrap.innerHTML = '';
-    window.ENV.HOBBIES.forEach(h => {
+    E.HOBBIES.forEach(h => {
       const chip = document.createElement('span');
       chip.textContent = h;
       hobbyWrap.appendChild(chip);
@@ -33,33 +35,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  const linkInstagram = document.querySelector('[data-link="instagram"]');
-  const linkLinkedin  = document.querySelector('[data-link="linkedin"]');
-  const linkGithub    = document.querySelector('[data-link="github"]');
-  if (linkInstagram && window.ENV?.SOCIAL?.INSTAGRAM) linkInstagram.href = window.ENV.SOCIAL.INSTAGRAM;
-  if (linkLinkedin  && window.ENV?.SOCIAL?.LINKEDIN)  linkLinkedin.href  = window.ENV.SOCIAL.LINKEDIN;
-  if (linkGithub    && window.ENV?.SOCIAL?.GITHUB)    linkGithub.href    = window.ENV.SOCIAL.GITHUB;
+  const safe = (v) => (typeof v === 'string' && v.trim() ? v : '#');
+  const linkInstagram = qs('[data-link="instagram"]');
+  const linkLinkedin  = qs('[data-link="linkedin"]');
+  const linkGithub    = qs('[data-link="github"]');
+  if (linkInstagram) linkInstagram.href = safe(E.SOCIAL?.INSTAGRAM);
+  if (linkLinkedin)  linkLinkedin.href  = safe(E.SOCIAL?.LINKEDIN);
+  if (linkGithub)    linkGithub.href    = safe(E.SOCIAL?.GITHUB);
 
 
   const mapEl = document.getElementById('map');
-  if (mapEl && window.ol && window.ENV?.MAP) {
-    const lon = window.ENV.MAP.center[0];
-    const lat = window.ENV.MAP.center[1];
-
+  if (mapEl && window.ol && Array.isArray(E.MAP?.center) && E.MAP.center.length === 2) {
+    const [lon, lat] = E.MAP.center;
     const map = new ol.Map({
       target: 'map',
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        })
-      ],
+      layers: [ new ol.layer.Tile({ source: new ol.source.OSM() }) ],
       view: new ol.View({
         center: ol.proj.fromLonLat([lon, lat]),
-        zoom: window.ENV.MAP.zoom || 6
+        zoom: E.MAP.zoom || 6
       })
     });
-
-
     const marker = new ol.Feature({
       geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
     });
@@ -68,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     map.addLayer(vectorLayer);
   }
 
+
   document.querySelectorAll('[data-scroll-to]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const sel = btn.getAttribute('data-scroll-to');
@@ -75,5 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
     });
   });
+
+  if (qs('[data-name]'))    qs('[data-name]').textContent = E.NAME || '';
+  if (qs('[data-surname]')) qs('[data-surname]').textContent = E.SURNAME || '';
+  if (qs('[data-uni]'))     qs('[data-uni]').textContent = E.UNIVERSITY || '';
+  if (qs('[data-dept]'))    qs('[data-dept]').textContent = E.DEPARTMENT || '';
 });
-</script>
