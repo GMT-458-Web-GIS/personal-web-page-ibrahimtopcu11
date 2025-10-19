@@ -1,32 +1,26 @@
-// env.js 
 window.ENV = {
-  // Kişisel Bilgiler
   NAME: "İbrahim",
   SURNAME: "Topcu",
   UNIVERSITY: "Hacettepe Üniversitesi",
   DEPARTMENT: "Geomatik Mühendisliği",
-  
-  // Hobiler
+ 
   HOBBIES: [
     "Sinema izlemek",
-    "Oyun oynamak", 
+    "Oyun oynamak",
     "Bisiklet sürmek"
   ],
-  
-  // Harita Ayarları (Ankara merkez)
-  MAP: { 
-    center: [32.8597, 39.9334], // [lon, lat]
-    zoom: 6 
+ 
+  MAP: {
+    center: [32.8597, 39.9334],
+    zoom: 6
   },
-  
-  // Sosyal Medya Linkleri
+ 
   SOCIAL: {
-    INSTAGRAM: "https://instagram.com/kullanici_adin",  
-    LINKEDIN:  "https://linkedin.com/in/kullanici_adin",
-    GITHUB:    "https://github.com/kullanici_adin"
+    INSTAGRAM: "https://instagram.com/kullanici_adin",
+    LINKEDIN: "https://linkedin.com/in/kullanici_adin",
+    GITHUB: "https://github.com/kullanici_adin"
   },
-  
-  // Projeler
+ 
   PROJECTS: [
     {
       title: "OSM Tabanlı Ağ ve En Kısa Yol Analizi",

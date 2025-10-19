@@ -1,45 +1,20 @@
-// script.js - Tüm JavaScript fonksiyonları
-
-// ====================================
-// Sayfa Yükleme ve Animasyonlar
-// ====================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Sayfa yükleme animasyonu
   setTimeout(() => {
     document.body.classList.add('page-loaded');
   }, 100);
 
-  // ENV değişkenlerini al
   const ENV = window.ENV || {};
 
-  // Navigasyon aktif link
   initNavigation();
-
-  // Çevresel değişkenleri DOM'a yerleştir
   populateEnvData(ENV);
-
-  // Hobileri doldur
   populateHobbies(ENV);
-
-  // Projeleri doldur
   populateProjects(ENV);
-
-  // Sosyal medya linklerini doldur
   populateSocialLinks(ENV);
-
-  // Haritayı başlat (eğer sayfa index.html ise)
   initMap(ENV);
-
-  // Smooth scroll butonları
   initSmoothScroll();
-
-  // Animasyonlu scroll efektleri
   initScrollAnimations();
 });
 
-// ====================================
-// Navigasyon İşlemleri
-// ====================================
 function initNavigation() {
   const navLinks = document.querySelectorAll('.nav-link');
   const currentPath = location.pathname.split('/').pop() || 'index.html';
@@ -47,12 +22,10 @@ function initNavigation() {
   navLinks.forEach(link => {
     const href = link.getAttribute('href');
     
-    // Aktif sayfa kontrolü
     if ((currentPath === '' && href === 'index.html') || href === currentPath) {
       link.classList.add('active');
     }
 
-    // Sayfa geçiş animasyonu
     link.addEventListener('click', (e) => {
       if (href && !href.startsWith('#')) {
         e.preventDefault();
@@ -66,16 +39,12 @@ function initNavigation() {
   });
 }
 
-// ====================================
-// ENV Verilerini DOM'a Yerleştirme
-// ====================================
 function populateEnvData(ENV) {
   const safeText = (selector, value) => {
     const el = document.querySelector(selector);
     if (el) el.textContent = value || '';
   };
 
-  // Temel bilgiler
   safeText('[data-name]', ENV.NAME);
   safeText('[data-surname]', ENV.SURNAME);
   safeText('[data-university]', ENV.UNIVERSITY);
@@ -83,16 +52,12 @@ function populateEnvData(ENV) {
   safeText('[data-department]', ENV.DEPARTMENT);
   safeText('[data-department-text]', ENV.DEPARTMENT);
 
-  // Tam isim
   const fullName = `${ENV.NAME || ''} ${ENV.SURNAME || ''}`.trim();
   document.querySelectorAll('[data-name-full]').forEach(el => {
     el.textContent = fullName;
   });
 }
 
-// ====================================
-// Hobileri Doldurma
-// ====================================
 function populateHobbies(ENV) {
   const hobbyContainer = document.querySelector('[data-hobbies]');
   
@@ -108,16 +73,12 @@ function populateHobbies(ENV) {
   }
 }
 
-// ====================================
-// Projeleri Doldurma
-// ====================================
 function populateProjects(ENV) {
   const tableBody = document.querySelector('[data-projects-table]');
   const projectsGrid = document.querySelector('[data-projects-grid]');
 
   if (!ENV.PROJECTS || !Array.isArray(ENV.PROJECTS)) return;
 
-  // Tablo görünümü için
   if (tableBody) {
     tableBody.innerHTML = '';
     
@@ -144,7 +105,6 @@ function populateProjects(ENV) {
     });
   }
 
-  // Kart görünümü için (mobil)
   if (projectsGrid) {
     projectsGrid.innerHTML = '';
     
@@ -171,9 +131,6 @@ function populateProjects(ENV) {
   }
 }
 
-// ====================================
-// Sosyal Medya Linklerini Doldurma
-// ====================================
 function populateSocialLinks(ENV) {
   const safeLink = (value) => {
     return (typeof value === 'string' && value.trim() && value !== '#') ? value : '#';
@@ -194,24 +151,18 @@ function populateSocialLinks(ENV) {
   }
 }
 
-// ====================================
-// Harita Başlatma (OpenLayers)
-// ====================================
 function initMap(ENV) {
   const mapElement = document.getElementById('map');
   
-  // Harita elementi ve OpenLayers kütüphanesi kontrolü
   if (!mapElement || !window.ol) return;
   
-  // Harita ayarları
   const mapConfig = ENV.MAP || {};
   const center = Array.isArray(mapConfig.center) && mapConfig.center.length === 2 
     ? mapConfig.center 
-    : [32.8597, 39.9334]; // Varsayılan: Ankara
+    : [32.8597, 39.9334];
   const zoom = mapConfig.zoom || 6;
 
   try {
-    // Harita oluştur
     const map = new ol.Map({
       target: 'map',
       layers: [
@@ -229,12 +180,10 @@ function initMap(ENV) {
       })
     });
 
-    // Marker ekle
     const markerFeature = new ol.Feature({
       geometry: new ol.geom.Point(ol.proj.fromLonLat(center))
     });
 
-    // Marker stili
     const markerStyle = new ol.style.Style({
       image: new ol.style.Circle({
         radius: 8,
@@ -248,7 +197,6 @@ function initMap(ENV) {
 
     markerFeature.setStyle(markerStyle);
 
-    // Marker katmanı
     const vectorSource = new ol.source.Vector({
       features: [markerFeature]
     });
@@ -259,7 +207,6 @@ function initMap(ENV) {
 
     map.addLayer(vectorLayer);
 
-    // Harita yüklenme animasyonu
     setTimeout(() => {
       mapElement.style.opacity = '1';
     }, 300);
@@ -269,9 +216,6 @@ function initMap(ENV) {
   }
 }
 
-// ====================================
-// Smooth Scroll
-// ====================================
 function initSmoothScroll() {
   document.querySelectorAll('[data-scroll-to]').forEach(button => {
     button.addEventListener('click', () => {
@@ -288,9 +232,6 @@ function initSmoothScroll() {
   });
 }
 
-// ====================================
-// Scroll Animasyonları (Intersection Observer)
-// ====================================
 function initScrollAnimations() {
   const observerOptions = {
     threshold: 0.1,
@@ -306,31 +247,10 @@ function initScrollAnimations() {
     });
   }, observerOptions);
 
-  // Animasyon yapılacak elementleri seç
   document.querySelectorAll('.section, .social-card, .project-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
   });
-}
-
-// ====================================
-// Yardımcı Fonksiyonlar
-// ====================================
-
-// Güvenli element seçici
-function safeQuery(selector) {
-  return document.querySelector(selector);
-}
-
-// Güvenli element seçici (çoklu)
-function safeQueryAll(selector) {
-  return document.querySelectorAll(selector);
-}
-
-// Konsol log (development)
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-  console.log('🚀 Site başarıyla yüklendi!');
-  console.log('📊 ENV Verileri:', window.ENV);
 }

@@ -1,6 +1,4 @@
-
 :root {
-
   --bg: #0b1020;
   --surface: #0f172a;
   --text: #e5e7eb;
@@ -10,30 +8,22 @@
   --border: #1f2937;
   --success: #10b981;
   --warning: #f59e0b;
-  
- 
   --radius: 14px;
   --radius-sm: 8px;
   --radius-lg: 20px;
-  
- 
   --transition-fast: 250ms;
   --transition-medium: 400ms;
   --transition-slow: 600ms;
-  
-
   --shadow-sm: 0 1px 2px rgba(0,0,0,.2);
   --shadow-md: 0 4px 12px rgba(0,0,0,.25);
   --shadow-lg: 0 20px 50px rgba(0,0,0,.35);
   --shadow-xl: 0 30px 70px rgba(0,0,0,.45);
-  
   --space-xs: 8px;
   --space-sm: 12px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
 }
-
 
 * {
   box-sizing: border-box;
@@ -96,7 +86,6 @@ p {
   background-clip: text;
 }
 
-
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -123,6 +112,7 @@ p {
     transform: translateY(0);
   }
 }
+
 .nav {
   position: sticky;
   top: 0;
@@ -241,7 +231,6 @@ p {
   margin-bottom: var(--space-lg);
 }
 
-
 .scroll-btn {
   cursor: pointer;
   border: none;
@@ -272,13 +261,11 @@ p {
   50% { opacity: 1; }
 }
 
-
 .about {
   border-left: 4px solid var(--accent);
   padding-left: var(--space-lg);
   animation-delay: 0.2s;
 }
-
 
 .chips {
   display: flex;
@@ -390,9 +377,8 @@ tbody tr:last-child td {
   box-shadow: var(--shadow-lg);
 }
 
-
 .projects-grid {
-  display: none; 
+  display: none;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--space-lg);
   margin-top: var(--space-lg);
@@ -419,7 +405,6 @@ tbody tr:last-child td {
   border-radius: var(--radius-sm);
   margin-bottom: var(--space-md);
 }
-
 
 .social-grid {
   display: grid;
@@ -599,7 +584,6 @@ tbody tr:last-child td {
   transform: translateY(0);
 }
 
-
 .footer {
   margin-top: var(--space-xl);
   padding: var(--space-xl) 0;
@@ -618,13 +602,11 @@ tbody tr:last-child td {
   font-size: 0.85rem;
 }
 
-
 .page-subtitle {
   color: var(--muted);
   font-size: 1.1rem;
   margin-bottom: var(--space-lg);
 }
-
 
 .skeleton {
   background: linear-gradient(90deg, rgba(255,255,255,.05) 25%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.05) 75%);
@@ -651,7 +633,6 @@ tbody tr:last-child td {
   height: 20px;
   width: 100%;
 }
-
 
 @media (max-width: 840px) {
   .hero {
@@ -717,7 +698,6 @@ tbody tr:last-child td {
   }
 }
 
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -747,7 +727,6 @@ tbody tr:last-child td {
   }
 }
 
-
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -764,7 +743,6 @@ tbody tr:last-child td {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, var(--accent), var(--primary));
 }
-
 
 ::selection {
   background: rgba(96,165,250,.3);

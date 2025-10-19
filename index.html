@@ -1,17 +1,14 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="İbrahim Topcu - Hacettepe Üniversitesi Geomatik Mühendisliği öğrencisi. Web geliştirme ve harita teknolojileri." />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="İbrahim Topcu - Hacettepe Üniversitesi Geomatik Mühendisliği öğrencisi">
   <title>İbrahim Topcu — Home</title>
-  
-  <!-- OpenLayers CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Navigasyon -->
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-link">Home</a>
@@ -20,15 +17,13 @@
     </div>
   </nav>
 
-  <!-- Ana İçerik -->
   <main class="container">
-    <!-- Hero Bölümü -->
     <section class="section hero">
-      <img src="assets/me.jpg" alt="İbrahim Topcu" class="hero-img" />
+      <img src="assets/me.jpg" alt="İbrahim Topcu" class="hero-img">
       <div class="hero-content">
         <h1>Merhaba, ben <span class="gradient-text" data-name-full>İbrahim Topcu</span> 👋</h1>
         <p class="hero-subtitle">
-          <strong data-university>Hacettepe Üniversitesi</strong> 
+          <strong data-university>Hacettepe Üniversitesi</strong>
           <em data-department>Geomatik Mühendisliği</em> öğrencisiyim.
           Web geliştirme, harita teknolojileri ve veri odaklı projelerle ilgileniyorum.
         </p>
@@ -39,32 +34,28 @@
           </svg>
         </button>
         <div class="scroll-tip">
-          <span class="scroll-dot"></span> 
+          <span class="scroll-dot"></span>
           aşağı kaydır
         </div>
       </div>
     </section>
 
-    <!-- Hakkımda Bölümü -->
     <section id="about" class="section about">
       <h2>Hakkımda</h2>
       <p>
         İsmim <strong><span data-name></span></strong> <strong><span data-surname></span></strong>.
         <span data-university-text></span> <span data-department-text></span> bölümünde okuyorum.
       </p>
-      
+     
       <h3 style="margin-top: 24px;">🎯 Hobilerim</h3>
-      <div class="chips" data-hobbies>
-        <!-- JavaScript tarafından doldurulacak -->
-      </div>
+      <div class="chips" data-hobbies></div>
 
       <h3 style="margin-top: 28px;">🗺️ Konum & Harita</h3>
-      <p>Aşağıda OpenLayers ile gömülü interaktif haritayı görebilirsiniz. Türkiye'nin genel görünümü varsayılan olarak yüklenir.</p>
+      <p>Aşağıda OpenLayers ile gömülü interaktif haritayı görebilirsiniz.</p>
       <div id="map" class="map-container"></div>
     </section>
   </main>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <p>© 2025 <span data-name-full></span>. Tüm hakları saklıdır.</p>
@@ -72,7 +63,6 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script src="env.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js"></script>
   <script src="script.js"></script>
