@@ -3,57 +3,58 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="İbrahim Topcu'nun projeleri - Geomatik mühendisliği ve web geliştirme projeleri" />
   <title>İbrahim Topcu — Projects</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Navigasyon -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="social.html">Social</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="social.html" class="nav-link">Social</a>
     </div>
   </nav>
 
+  <!-- Ana İçerik -->
   <main class="container">
     <section class="section">
-      <h1>Projelerim</h1>
-      <p class="muted">Aşağıda bazı projelerim tabloludur (görseller dâhil).</p>
-
+      <h1>🚀 Projelerim</h1>
+      <p class="page-subtitle">Geomatik mühendisliği ve web geliştirme alanlarında gerçekleştirdiğim projeler</p>
+      
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
               <th>Önizleme</th>
-              <th>Proje</th>
+              <th>Proje Detayları</th>
               <th>Teknolojiler</th>
               <th>Bağlantı</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody data-projects-table>
             <tr>
-              <td><img src="assets/proj1.jpg" alt="Proje 1" class="proj-thumb"></td>
-              <td><strong>OSM tabanlı ağ ve en kısa yol analizi</strong><br><small>Python, GeoPandas</small></td>
-              <td>Python, OSMnx, GeoPandas</td>
-              <td><a class="btn" href="https://github.com/kullanici_adin/proje1" target="_blank" rel="noopener">GitHub</a></td>
-            </tr>
-            <tr>
-              <td><img src="assets/proj2.jpg" alt="Proje 2" class="proj-thumb"></td>
-              <td><strong>OpenLayers ile Web Harita</strong><br><small>OL, JS</small></td>
-              <td>OpenLayers, JS, HTML/CSS</td>
-              <td><a class="btn" href="https://kullanici_adin.github.io/ol-demo" target="_blank" rel="noopener">Demo</a></td>
-            </tr>
-            <tr>
-              <td><img src="assets/proj3.jpg" alt="Proje 3" class="proj-thumb"></td>
-              <td><strong>QGIS + PostGIS Afet Yönetimi</strong><br><small>Node/Express, React-Leaflet</small></td>
-              <td>Node, React, PostGIS</td>
-              <td><a class="btn" href="https://github.com/kullanici_adin/afet-yonetimi" target="_blank" rel="noopener">GitHub</a></td>
+              <td><div class="skeleton skeleton-img"></div></td>
+              <td><div class="skeleton skeleton-text"></div></td>
+              <td><div class="skeleton skeleton-text"></div></td>
+              <td><div class="skeleton skeleton-text"></div></td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <div class="projects-grid" data-projects-grid>
+      </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 <span data-name-full></span>. Tüm hakları saklıdır.</p>
+      <p class="footer-muted">GitHub Pages ile barındırılıyor</p>
+    </div>
+  </footer>
 
   <script src="env.js"></script>
   <script src="script.js"></script>

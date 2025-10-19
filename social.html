@@ -3,51 +3,87 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="İbrahim Topcu ile iletişime geçin - Instagram, LinkedIn, GitHub" />
   <title>İbrahim Topcu — Social</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Navigasyon -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="social.html">Social</a>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="projects.html" class="nav-link">Projects</a>
+      <a href="social.html" class="nav-link">Social</a>
     </div>
   </nav>
 
+  <!-- Ana İçerik -->
   <main class="container">
     <section class="section">
-      <h1>İletişim & Sosyal</h1>
-      <p>Logolara tıklayarak profillerime gidebilirsiniz.</p>
-
+      <h1>📱 İletişim & Sosyal</h1>
+      <p class="page-subtitle">Benimle iletişime geçmek için aşağıdaki platformları kullanabilirsiniz</p>
+      
       <div class="social-grid">
+        <!-- Instagram -->
         <a class="social-card" data-link="instagram" href="#" target="_blank" rel="noopener">
-          <img src="assets/instagram.svg" alt="Instagram">
-          <div>
+          <div class="social-icon-wrapper">
+            <img src="assets/instagram.svg" alt="Instagram" class="social-icon">
+          </div>
+          <div class="social-info">
             <h3>Instagram</h3>
-            <div class="muted">Fotoğraf & kısa hikâyeler</div>
+            <p class="social-desc">Fotoğraf & kısa hikâyeler</p>
           </div>
+          <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
         </a>
 
+        <!-- LinkedIn -->
         <a class="social-card" data-link="linkedin" href="#" target="_blank" rel="noopener">
-          <img src="assets/linkedin.svg" alt="LinkedIn">
-          <div>
-            <h3>LinkedIn</h3>
-            <div class="muted">Akademik & profesyonel</div>
+          <div class="social-icon-wrapper">
+            <img src="assets/linkedin.svg" alt="LinkedIn" class="social-icon">
           </div>
+          <div class="social-info">
+            <h3>LinkedIn</h3>
+            <p class="social-desc">Akademik & profesyonel</p>
+          </div>
+          <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
         </a>
 
+        <!-- GitHub -->
         <a class="social-card" data-link="github" href="#" target="_blank" rel="noopener">
-          <img src="assets/github.svg" alt="GitHub">
-          <div>
-            <h3>GitHub</h3>
-            <div class="muted">Kod & projeler</div>
+          <div class="social-icon-wrapper">
+            <img src="assets/github.svg" alt="GitHub" class="social-icon">
           </div>
+          <div class="social-info">
+            <h3>GitHub</h3>
+            <p class="social-desc">Kod & projeler</p>
+          </div>
+          <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
         </a>
+      </div>
+
+      <!-- İletişim Bilgisi -->
+      <div class="contact-info">
+        <h3>✉️ Doğrudan İletişim</h3>
+        <p>Proje işbirlikleri ve sorularınız için sosyal medya hesaplarımdan bana ulaşabilirsiniz.</p>
       </div>
     </section>
   </main>
 
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 <span data-name-full></span>. Tüm hakları saklıdır.</p>
+      <p class="footer-muted">GitHub Pages ile barındırılıyor</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
   <script src="env.js"></script>
   <script src="script.js"></script>
 </body>
