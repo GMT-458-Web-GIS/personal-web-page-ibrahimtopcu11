@@ -9,11 +9,18 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="world-map-bg"></div>
+  
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="tr">TR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+  
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="social.html" class="nav-link">Contact</a>
+      <a href="index.html" class="nav-link" data-i18n="nav.home">Ana Sayfa</a>
+      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projeler</a>
+      <a href="social.html" class="nav-link" data-i18n="nav.contact">İletişim</a>
     </div>
   </nav>
 
@@ -22,37 +29,37 @@
       <img src="assets/me.jpg" alt="İbrahim Topcu" class="hero-img">
       <div class="hero-content">
         <h1 data-name-full>İbrahim Topcu</h1>
-        <p class="hero-subtitle">
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
           Geomatik mühendisliği öğrencisi. Web geliştirme, harita teknolojileri ve veri odaklı projelerle ilgileniyorum.
         </p>
         <button class="btn scroll-btn" data-scroll-to="#about">
-          <span>Devamını Keşfet</span>
+          <span data-i18n="buttons.explore">Devamını Keşfet</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
           </svg>
         </button>
         <div class="scroll-tip">
           <span class="scroll-dot"></span>
-          Aşağı Kaydır
+          <span data-i18n="buttons.scrollTip">Aşağı Kaydır</span>
         </div>
       </div>
     </section>
 
     <section id="about" class="section about blur-on-scroll">
-      <h3>Hakkımda</h3>
+      <h3 data-i18n="sections.about">Hakkımda</h3>
       <h2>
         <span data-university>Hacettepe Üniversitesi</span><br>
         <span data-department>Geomatik Mühendisliği</span>
       </h2>
       <p data-about-text>
-        Hacettepe Üniversitesi Geomatik Mühendisliği bölümünde lisans eğitimime devam ediyorum. Harita teknolojileri, coğrafi bilgi sistemleri ve web geliştirme alanlarında kendimi geliştiriyorum.
+        Hacettepe Üniversitesi Geomatik Mühendisliği bölümünde lisans eğitimime devam ediyorum.
       </p>
      
-      <h3 style="margin-top: 3rem;">İlgi Alanlarım</h3>
+      <h3 style="margin-top: 3rem;" data-i18n="sections.hobbies">İlgi Alanlarım</h3>
       <div class="chips" data-hobbies></div>
 
-      <h3 style="margin-top: 3rem;">Çalıştığım Yerler</h3>
-      <p>Staj deneyimlerimde hem özel sektörde hem de kamu kurumlarında çalışma fırsatı buldum.</p>
+      <h3 style="margin-top: 3rem;" data-i18n="sections.workPlaces">Çalıştığım Yerler</h3>
+      <p data-i18n="sections.workDesc">Staj deneyimlerimde hem özel sektörde hem de kamu kurumlarında çalışma fırsatı buldum.</p>
       <div id="map" class="map-container"></div>
     </section>
   </main>
@@ -66,6 +73,7 @@
 
   <script src="env.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
