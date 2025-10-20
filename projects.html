@@ -8,19 +8,26 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="world-map-bg"></div>
+  
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="tr">TR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+  
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="social.html" class="nav-link">Contact</a>
+      <a href="index.html" class="nav-link" data-i18n="nav.home">Ana Sayfa</a>
+      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projeler</a>
+      <a href="social.html" class="nav-link" data-i18n="nav.contact">İletişim</a>
     </div>
   </nav>
 
   <main class="container">
-    <section class="section">
-      <h3>Portföy</h3>
-      <h1>Projelerim</h1>
-      <p class="page-subtitle">Geomatik mühendisliği ve web geliştirme alanlarında gerçekleştirdiğim projeler</p>
+    <section class="section blur-on-scroll">
+      <h3 data-i18n="sections.portfolio">Portföy</h3>
+      <h1 data-i18n="nav.projects">Projelerim</h1>
+      <p class="page-subtitle" data-i18n="sections.projectsSubtitle">Geomatik mühendisliği ve web geliştirme alanlarında gerçekleştirdiğim projeler</p>
      
       <div class="projects-grid" data-projects-grid></div>
     </section>
@@ -34,6 +41,7 @@
   </footer>
 
   <script src="env.js"></script>
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
