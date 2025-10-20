@@ -10,13 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   populateHobbies(ENV);
   populateProjects(ENV);
   populateSocialLinks(ENV);
+  initSmoothScroll();
+  initScrollAnimations();
   
   setTimeout(() => {
     initMap(ENV);
-  }, 500);
-  
-  initSmoothScroll();
-  initScrollAnimations();
+  }, 1000);
 });
 
 window.addEventListener('pageshow', (event) => {
@@ -144,68 +143,41 @@ function initMap(ENV) {
     return;
   }
 
-  if (typeof ol === 'undefined') {
-    console.error('OpenLayers yüklenemedi');
+  if (typeof L === 'undefined') {
+    console.error('Leaflet yüklenemedi');
     mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:12px;color:#6b7280;font-size:14px;">Harita yüklenemedi</div>';
     return;
   }
 
   const mapConfig = ENV.MAP || {};
-  const center = Array.isArray(mapConfig.center) && mapConfig.center.length === 2 
-    ? mapConfig.center 
-    : [32.8597, 39.9334];
+  const lat = mapConfig.center && mapConfig.center[1] ? mapConfig.center[1] : 39.9334;
+  const lng = mapConfig.center && mapConfig.center[0] ? mapConfig.center[0] : 32.8597;
   const zoom = mapConfig.zoom || 6;
 
   try {
-    const map = new ol.Map({
-      target: 'map',
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat(center),
-        zoom: zoom
-      }),
-      controls: ol.control.defaults({
-        attribution: false,
-        zoom: true
-      })
+    const map = L.map('map', {
+      zoomControl: true,
+      attributionControl: false
+    }).setView([lat, lng], zoom);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19
+    }).addTo(map);
+
+    const customIcon = L.divIcon({
+      className: 'custom-marker',
+      html: '<div style="width:20px;height:20px;background:#0a0a0a;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
     });
 
-    const markerFeature = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.fromLonLat(center))
-    });
-
-    const markerStyle = new ol.style.Style({
-      image: new ol.style.Circle({
-        radius: 10,
-        fill: new ol.style.Fill({ color: '#0a0a0a' }),
-        stroke: new ol.style.Stroke({
-          color: '#ffffff',
-          width: 3
-        })
-      })
-    });
-
-    markerFeature.setStyle(markerStyle);
-
-    const vectorSource = new ol.source.Vector({
-      features: [markerFeature]
-    });
-
-    const vectorLayer = new ol.layer.Vector({
-      source: vectorSource
-    });
-
-    map.addLayer(vectorLayer);
+    L.marker([lat, lng], { icon: customIcon }).addTo(map);
 
     setTimeout(() => {
-      map.updateSize();
+      map.invalidateSize();
       mapElement.classList.add('loaded');
       console.log('Harita başarıyla yüklendi');
-    }, 300);
+    }, 200);
 
   } catch (error) {
     console.error('Harita hatası:', error);
