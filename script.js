@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('page-loaded');
   }, 100);
 
-  const ENV = window.ENV || {};
+  const currentLang = localStorage.getItem('language') || 'tr';
+  const ENV = window.ENV[currentLang] || window.ENV.tr;
 
   initNavigation();
   populateEnvData(ENV);
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initScrollAnimations();
   initBlurEffect();
+  initWorldMapAnimation();
   
   setTimeout(() => {
     initMap(ENV);
@@ -55,7 +57,7 @@ function initNavigation() {
   });
 }
 
-function populateEnvData(ENV) {
+window.populateEnvData = function(ENV) {
   const safeText = (selector, value) => {
     const el = document.querySelector(selector);
     if (el) el.textContent = value || '';
@@ -75,13 +77,16 @@ function populateEnvData(ENV) {
   });
 }
 
-function populateHobbies(ENV) {
+window.populateHobbies = function(ENV) {
+  const currentLang = localStorage.getItem('language') || 'tr';
+  const data = window.ENV[currentLang] || window.ENV.tr;
+  
   const hobbyContainer = document.querySelector('[data-hobbies]');
   
-  if (hobbyContainer && Array.isArray(ENV.HOBBIES)) {
+  if (hobbyContainer && Array.isArray(data.HOBBIES)) {
     hobbyContainer.innerHTML = '';
     
-    ENV.HOBBIES.forEach(hobby => {
+    data.HOBBIES.forEach(hobby => {
       const chip = document.createElement('span');
       chip.textContent = hobby;
       hobbyContainer.appendChild(chip);
@@ -89,14 +94,18 @@ function populateHobbies(ENV) {
   }
 }
 
-function populateProjects(ENV) {
+window.populateProjects = function(ENV) {
+  const currentLang = localStorage.getItem('language') || 'tr';
+  const data = window.ENV[currentLang] || window.ENV.tr;
   const projectsGrid = document.querySelector('[data-projects-grid]');
 
-  if (!projectsGrid || !ENV.PROJECTS || !Array.isArray(ENV.PROJECTS)) return;
+  if (!projectsGrid || !data.PROJECTS || !Array.isArray(data.PROJECTS)) return;
 
   projectsGrid.innerHTML = '';
   
-  ENV.PROJECTS.forEach(project => {
+  const viewProjectText = data.BUTTONS?.VIEW_PROJECT || 'Projeyi Görüntüle';
+  
+  data.PROJECTS.forEach(project => {
     const card = document.createElement('div');
     card.className = 'project-card blur-on-scroll';
     card.innerHTML = `
@@ -105,7 +114,7 @@ function populateProjects(ENV) {
       <p>${project.description}</p>
       <p class="project-tech">${project.tech}</p>
       <a class="btn" href="${project.link}" target="_blank" rel="noopener">
-        <span>Projeyi Görüntüle</span>
+        <span>${viewProjectText}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
           <polyline points="15 3 21 3 21 9"></polyline>
@@ -115,9 +124,16 @@ function populateProjects(ENV) {
     `;
     projectsGrid.appendChild(card);
   });
+  
+  if (window.initBlurEffect) {
+    setTimeout(() => window.initBlurEffect(), 100);
+  }
 }
 
-function populateSocialLinks(ENV) {
+window.populateSocialLinks = function(ENV) {
+  const currentLang = localStorage.getItem('language') || 'tr';
+  const data = window.ENV[currentLang] || window.ENV.tr;
+  
   const safeLink = (value) => {
     return (typeof value === 'string' && value.trim() && value !== '#') ? value : '#';
   };
@@ -126,14 +142,14 @@ function populateSocialLinks(ENV) {
   const linkLinkedin = document.querySelector('[data-link="linkedin"]');
   const linkGithub = document.querySelector('[data-link="github"]');
 
-  if (linkInstagram) {
-    linkInstagram.href = safeLink(ENV.SOCIAL?.INSTAGRAM);
+  if (linkInstagram && data.SOCIAL?.INSTAGRAM) {
+    linkInstagram.href = safeLink(data.SOCIAL.INSTAGRAM.url);
   }
-  if (linkLinkedin) {
-    linkLinkedin.href = safeLink(ENV.SOCIAL?.LINKEDIN);
+  if (linkLinkedin && data.SOCIAL?.LINKEDIN) {
+    linkLinkedin.href = safeLink(data.SOCIAL.LINKEDIN.url);
   }
-  if (linkGithub) {
-    linkGithub.href = safeLink(ENV.SOCIAL?.GITHUB);
+  if (linkGithub && data.SOCIAL?.GITHUB) {
+    linkGithub.href = safeLink(data.SOCIAL.GITHUB.url);
   }
 }
 
@@ -151,31 +167,36 @@ function initMap(ENV) {
     return;
   }
 
-  const mapConfig = ENV.MAP || {};
+  const mapConfig = window.ENV.MAP || {};
   const lat = mapConfig.center && mapConfig.center[1] ? mapConfig.center[1] : 39.9334;
   const lng = mapConfig.center && mapConfig.center[0] ? mapConfig.center[0] : 32.8597;
-  const zoom = mapConfig.zoom || 11;
+  const zoom = mapConfig.zoom || 12;
+  
+  const currentLang = localStorage.getItem('language') || 'tr';
+  const data = window.ENV[currentLang] || window.ENV.tr;
 
   try {
     const map = L.map('map', {
       zoomControl: true,
-      attributionControl: false
+      attributionControl: false,
+      minZoom: 8,
+      maxZoom: 18
     }).setView([lat, lng], zoom);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      minZoom: 10
+      maxZoom: 18,
+      minZoom: 8
     }).addTo(map);
 
-    if (ENV.WORK_PLACES && Array.isArray(ENV.WORK_PLACES)) {
-      ENV.WORK_PLACES.forEach((place, index) => {
+    if (data.WORK_PLACES && Array.isArray(data.WORK_PLACES)) {
+      data.WORK_PLACES.forEach((place, index) => {
         const customIcon = L.divIcon({
           className: 'custom-work-marker',
           html: `<div style="position:relative;animation:markerBounce 2s ease-in-out infinite;animation-delay:${index * 0.3}s;">
-                   <div style="width:30px;height:30px;background:#111111;border:3px solid #fff;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:12px;">${index + 1}</div>
+                   <div style="width:35px;height:35px;background:#111111;border:3px solid #fff;border-radius:50%;box-shadow:0 6px 16px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:14px;">${index + 1}</div>
                  </div>`,
-          iconSize: [30, 30],
-          iconAnchor: [15, 15]
+          iconSize: [35, 35],
+          iconAnchor: [17.5, 17.5]
         });
 
         const marker = L.marker([place.coordinates[1], place.coordinates[0]], { 
@@ -183,12 +204,16 @@ function initMap(ENV) {
         }).addTo(map);
 
         marker.bindPopup(`
-          <div style="font-family:system-ui;padding:8px;">
-            <h3 style="margin:0 0 6px;font-size:14px;font-weight:600;color:#111;">${place.name}</h3>
-            <p style="margin:0 0 4px;font-size:12px;color:#666;"><strong>${place.type}</strong></p>
-            <p style="margin:0;font-size:11px;color:#888;">${place.description}</p>
+          <div style="font-family:system-ui;padding:12px;min-width:200px;">
+            <img src="${place.image}" alt="${place.name}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:10px;" onerror="this.style.display='none'">
+            <h3 style="margin:0 0 8px;font-size:15px;font-weight:600;color:#111;">${place.name}</h3>
+            <p style="margin:0 0 6px;font-size:12px;color:#666;"><strong>${place.type}</strong></p>
+            <p style="margin:0;font-size:11px;color:#888;line-height:1.4;">${place.description}</p>
           </div>
-        `);
+        `, {
+          maxWidth: 250,
+          className: 'custom-popup'
+        });
       });
     }
 
@@ -211,10 +236,27 @@ function initSmoothScroll() {
       const targetElement = document.querySelector(targetSelector);
       
       if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+        const startPosition = window.pageYOffset;
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+        const distance = targetPosition - startPosition;
+        const duration = 1200;
+        let start = null;
+        
+        function animation(currentTime) {
+          if (start === null) start = currentTime;
+          const timeElapsed = currentTime - start;
+          const progress = Math.min(timeElapsed / duration, 1);
+          
+          const ease = t => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+          
+          window.scrollTo(0, startPosition + distance * ease(progress));
+          
+          if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+          }
+        }
+        
+        requestAnimationFrame(animation);
       }
     });
   });
@@ -245,46 +287,57 @@ function initScrollAnimations() {
   });
 }
 
-function initBlurEffect() {
+window.initBlurEffect = function() {
   const blurElements = document.querySelectorAll('.blur-on-scroll');
   
-  const blurObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const distanceFromTop = entry.boundingClientRect.top;
-      const windowHeight = window.innerHeight;
-      
-      if (distanceFromTop > windowHeight * 0.7) {
-        const blurAmount = Math.min(8, (distanceFromTop - windowHeight * 0.7) / 50);
-        entry.target.style.filter = `blur(${blurAmount}px)`;
-        entry.target.style.opacity = Math.max(0.3, 1 - blurAmount / 8);
-      } else {
-        entry.target.style.filter = 'blur(0px)';
-        entry.target.style.opacity = '1';
-      }
-    });
-  }, {
-    threshold: Array.from({length: 100}, (_, i) => i / 100)
-  });
-
-  blurElements.forEach(el => {
-    blurObserver.observe(el);
-  });
-  
-  window.addEventListener('scroll', () => {
+  function updateBlur() {
     blurElements.forEach(el => {
       const rect = el.getBoundingClientRect();
       const distanceFromTop = rect.top;
       const windowHeight = window.innerHeight;
       
-      if (distanceFromTop > windowHeight * 0.7) {
-        const blurAmount = Math.min(8, (distanceFromTop - windowHeight * 0.7) / 50);
+      if (distanceFromTop > windowHeight * 0.6) {
+        const blurAmount = Math.min(10, (distanceFromTop - windowHeight * 0.6) / 40);
         el.style.filter = `blur(${blurAmount}px)`;
-        el.style.opacity = Math.max(0.3, 1 - blurAmount / 8);
-        el.style.transition = 'filter 0.3s ease, opacity 0.3s ease';
+        el.style.opacity = Math.max(0.2, 1 - blurAmount / 10);
       } else {
         el.style.filter = 'blur(0px)';
         el.style.opacity = '1';
       }
     });
+  }
+  
+  const blurObserver = new IntersectionObserver((entries) => {
+    updateBlur();
+  }, {
+    threshold: Array.from({length: 20}, (_, i) => i / 20)
   });
+
+  blurElements.forEach(el => {
+    el.style.transition = 'filter 0.3s ease, opacity 0.3s ease';
+    blurObserver.observe(el);
+  });
+  
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateBlur();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
+function initWorldMapAnimation() {
+  const worldMapBg = document.querySelector('.world-map-bg');
+  if (!worldMapBg) return;
+  
+  let scrollY = 0;
+  
+  window.addEventListener('scroll', () => {
+    scrollY = window.pageYOffset;
+    worldMapBg.style.transform = `translateY(${scrollY * 0.3}px) scale(1.1)`;
+  }, { passive: true });
 }

@@ -5,9 +5,6 @@
   --border: #e4e4e7;
   --accent: #111111;
   --hover: #fafafa;
-  --world-pattern: radial-gradient(circle at 20% 50%, #e8f4f8 0%, transparent 50%),
-                   radial-gradient(circle at 80% 80%, #fff5e6 0%, transparent 50%),
-                   radial-gradient(circle at 40% 20%, #f0f9ff 0%, transparent 50%);
 }
 
 * {
@@ -23,8 +20,6 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
-  background-image: var(--world-pattern);
-  background-attachment: fixed;
   color: var(--text);
   line-height: 1.6;
   opacity: 0;
@@ -33,6 +28,93 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.world-map-bg {
+  position: fixed;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  z-index: -1;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 600'%3E%3Cpath fill='%23111111' d='M300 150 Q350 100 400 150 L450 130 Q480 150 500 120 L550 140 Q580 120 600 150 L650 130 Q680 150 700 140 L750 160 Q780 140 800 160 M200 250 Q220 230 240 250 L260 240 Q280 250 300 235 L320 245 Q340 230 360 245 L380 235 Q400 245 420 240 L440 250 Q460 235 480 250 M100 350 Q130 330 160 350 L190 340 Q210 350 230 335 L250 345 Q270 330 290 345 L310 335 Q330 345 350 340 L370 350 Q390 335 410 350 M500 280 Q530 260 560 280 L590 270 Q610 280 630 265 L650 275 Q670 260 690 275 L710 265 Q730 275 750 270 L770 280 Q790 265 810 280 M400 380 Q430 360 460 380 L490 370 Q510 380 530 365 L550 375 Q570 360 590 375 L610 365 Q630 375 650 370 L670 380 Q690 365 710 380 M200 450 Q230 430 260 450 L290 440 Q310 450 330 435 L350 445 Q370 430 390 445 L410 435 Q430 445 450 440 L470 450 Q490 435 510 450'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: worldMapFloat 60s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes worldMapFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1.1);
+    opacity: 0.08;
+  }
+  25% {
+    transform: translateY(-20px) scale(1.12);
+    opacity: 0.06;
+  }
+  50% {
+    transform: translateY(0) scale(1.1);
+    opacity: 0.08;
+  }
+  75% {
+    transform: translateY(20px) scale(1.08);
+    opacity: 0.1;
+  }
+}
+
+.lang-switcher {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 6px;
+  border-radius: 50px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  animation: slideInRight 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.lang-btn {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.lang-btn:hover {
+  background: var(--hover);
+  color: var(--accent);
+}
+
+.lang-btn.active {
+  background: var(--accent);
+  color: white;
 }
 
 body.page-loaded {
@@ -125,7 +207,7 @@ p {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-15px);
+    transform: translateY(-20px);
   }
 }
 
@@ -133,6 +215,8 @@ p {
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem 1.5rem 4rem;
+  position: relative;
+  z-index: 1;
 }
 
 .nav {
@@ -353,6 +437,11 @@ p {
   transform: translateY(0) scale(1);
 }
 
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -364,7 +453,7 @@ p {
   border: none;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 0.875rem;
+font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
@@ -459,6 +548,7 @@ p {
   transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
+
 .project-card:hover img {
   transform: scale(1.03) translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -665,6 +755,11 @@ p {
 @media (max-width: 768px) {
   .container {
     padding: 2rem 1.25rem 3rem;
+  }
+
+  .lang-switcher {
+    top: 15px;
+    right: 15px;
   }
 
   .nav-inner {
