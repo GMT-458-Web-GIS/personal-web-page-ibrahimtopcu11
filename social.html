@@ -8,26 +8,35 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="world-map-bg"></div>
+  
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="tr">TR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+  
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="projects.html" class="nav-link">Projects</a>
-      <a href="social.html" class="nav-link">Contact</a>
+      <a href="index.html" class="nav-link" data-i18n="nav.home">Ana Sayfa</a>
+      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projeler</a>
+      <a href="social.html" class="nav-link" data-i18n="nav.contact">İletişim</a>
     </div>
   </nav>
 
   <main class="container">
-    <section class="section">
-      <h3>Bağlantılar</h3>
-      <h1>İletişim</h1>
-      <p class="page-subtitle">Benimle iletişime geçmek için aşağıdaki platformları kullanabilirsiniz</p>
+    <section class="section blur-on-scroll">
+      <h3 data-i18n="sections.contactTitle">Bağlantılar</h3>
+      <h1 data-i18n="nav.contact">İletişim</h1>
+      <p class="page-subtitle" data-i18n="sections.contactSubtitle">Benimle iletişime geçmek için aşağıdaki platformları kullanabilirsiniz</p>
      
       <div class="social-grid">
         <a class="social-card" data-link="instagram" href="#" target="_blank" rel="noopener">
-          <img src="assets/instagram.svg" alt="Instagram" class="social-icon">
+          <div class="social-icon-wrapper">
+            <img src="assets/instagram.svg" alt="Instagram" class="social-icon">
+          </div>
           <div class="social-info">
-            <h3>Instagram</h3>
-            <p class="social-desc">Fotoğraf ve günlük paylaşımlar</p>
+            <h3 data-social-title="instagram">Instagram</h3>
+            <p class="social-desc" data-social-desc="instagram">Fotoğraf ve günlük paylaşımlar</p>
           </div>
           <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
@@ -35,10 +44,12 @@
         </a>
 
         <a class="social-card" data-link="linkedin" href="#" target="_blank" rel="noopener">
-          <img src="assets/linkedin.svg" alt="LinkedIn" class="social-icon">
+          <div class="social-icon-wrapper">
+            <img src="assets/linkedin.svg" alt="LinkedIn" class="social-icon">
+          </div>
           <div class="social-info">
-            <h3>LinkedIn</h3>
-            <p class="social-desc">Profesyonel bağlantılar</p>
+            <h3 data-social-title="linkedin">LinkedIn</h3>
+            <p class="social-desc" data-social-desc="linkedin">Profesyonel bağlantılar</p>
           </div>
           <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
@@ -46,10 +57,12 @@
         </a>
 
         <a class="social-card" data-link="github" href="#" target="_blank" rel="noopener">
-          <img src="assets/github.svg" alt="GitHub" class="social-icon">
+          <div class="social-icon-wrapper">
+            <img src="assets/github.svg" alt="GitHub" class="social-icon">
+          </div>
           <div class="social-info">
-            <h3>GitHub</h3>
-            <p class="social-desc">Kod ve açık kaynak projeler</p>
+            <h3 data-social-title="github">GitHub</h3>
+            <p class="social-desc" data-social-desc="github">Kod ve açık kaynak projeler</p>
           </div>
           <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
@@ -58,8 +71,8 @@
       </div>
 
       <div class="contact-info">
-        <h3>Doğrudan İletişim</h3>
-        <p>Proje işbirlikleri ve sorularınız için sosyal medya hesaplarımdan bana ulaşabilirsiniz.</p>
+        <h3 data-i18n="sections.contactInfo">Doğrudan İletişim</h3>
+        <p data-i18n="sections.contactText">Proje işbirlikleri ve sorularınız için sosyal medya hesaplarımdan bana ulaşabilirsiniz.</p>
       </div>
     </section>
   </main>
@@ -72,6 +85,7 @@
   </footer>
 
   <script src="env.js"></script>
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
