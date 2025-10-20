@@ -16,9 +16,9 @@ window.ENV = {
   },
  
   SOCIAL: {
-    INSTAGRAM: "https://instagram.com/kullanici_adin",
-    LINKEDIN: "https://linkedin.com/in/kullanici_adin",
-    GITHUB: "https://github.com/kullanici_adin"
+    INSTAGRAM: "https://www.instagram.com/ibrahim__tpc/",
+    LINKEDIN: "https://linkedin.com/in/ibrahim-topcu-1a411a2b8",
+    GITHUB: "https://github.com/ibrahimtopcu11"
   },
  
   PROJECTS: [
