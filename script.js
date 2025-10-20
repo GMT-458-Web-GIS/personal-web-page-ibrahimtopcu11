@@ -10,9 +10,25 @@ document.addEventListener('DOMContentLoaded', () => {
   populateHobbies(ENV);
   populateProjects(ENV);
   populateSocialLinks(ENV);
-  initMap(ENV);
+  
+  setTimeout(() => {
+    initMap(ENV);
+  }, 500);
+  
   initSmoothScroll();
   initScrollAnimations();
+});
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    document.body.classList.remove('page-leave');
+    document.body.classList.add('page-loaded');
+  }
+});
+
+window.addEventListener('load', () => {
+  document.body.classList.remove('page-leave');
+  document.body.classList.add('page-loaded');
 });
 
 function initNavigation() {
@@ -33,7 +49,7 @@ function initNavigation() {
         
         setTimeout(() => {
           window.location.href = href;
-        }, 300);
+        }, 400);
       }
     });
   });
@@ -123,8 +139,17 @@ function populateSocialLinks(ENV) {
 function initMap(ENV) {
   const mapElement = document.getElementById('map');
   
-  if (!mapElement || !window.ol) return;
-  
+  if (!mapElement) {
+    console.log('Harita elementi bulunamadı');
+    return;
+  }
+
+  if (typeof ol === 'undefined') {
+    console.error('OpenLayers yüklenemedi');
+    mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:12px;color:#6b7280;font-size:14px;">Harita yüklenemedi</div>';
+    return;
+  }
+
   const mapConfig = ENV.MAP || {};
   const center = Array.isArray(mapConfig.center) && mapConfig.center.length === 2 
     ? mapConfig.center 
@@ -155,10 +180,10 @@ function initMap(ENV) {
 
     const markerStyle = new ol.style.Style({
       image: new ol.style.Circle({
-        radius: 8,
-        fill: new ol.style.Fill({ color: '#000000' }),
+        radius: 10,
+        fill: new ol.style.Fill({ color: '#0a0a0a' }),
         stroke: new ol.style.Stroke({
-          color: '#fff',
+          color: '#ffffff',
           width: 3
         })
       })
@@ -177,11 +202,14 @@ function initMap(ENV) {
     map.addLayer(vectorLayer);
 
     setTimeout(() => {
-      mapElement.style.opacity = '1';
+      map.updateSize();
+      mapElement.classList.add('loaded');
+      console.log('Harita başarıyla yüklendi');
     }, 300);
 
   } catch (error) {
-    console.error('Harita yüklenirken hata oluştu:', error);
+    console.error('Harita hatası:', error);
+    mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:12px;color:#6b7280;font-size:14px;">Harita oluşturulamadı</div>';
   }
 }
 
@@ -204,7 +232,7 @@ function initSmoothScroll() {
 function initScrollAnimations() {
   const observerOptions = {
     threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -80px 0px'
   };
 
   const observer = new IntersectionObserver((entries) => {
@@ -217,9 +245,11 @@ function initScrollAnimations() {
   }, observerOptions);
 
   document.querySelectorAll('.section, .social-card, .project-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+    if (!el.style.animation) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+      observer.observe(el);
+    }
   });
 }
