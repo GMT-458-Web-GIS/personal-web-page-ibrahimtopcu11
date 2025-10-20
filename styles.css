@@ -1,10 +1,13 @@
 :root {
-  --bg: #fefefe;
+  --bg: #f8f9fa;
   --text: #111111;
   --text-light: #737373;
   --border: #e4e4e7;
   --accent: #111111;
   --hover: #fafafa;
+  --world-pattern: radial-gradient(circle at 20% 50%, #e8f4f8 0%, transparent 50%),
+                   radial-gradient(circle at 80% 80%, #fff5e6 0%, transparent 50%),
+                   radial-gradient(circle at 40% 20%, #f0f9ff 0%, transparent 50%);
 }
 
 * {
@@ -20,6 +23,8 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
+  background-image: var(--world-pattern);
+  background-attachment: fixed;
   color: var(--text);
   line-height: 1.6;
   opacity: 0;
@@ -80,6 +85,10 @@ p {
   animation: fadeSlideUp 0.9s cubic-bezier(0.19, 1, 0.22, 1) 0.6s backwards;
 }
 
+.blur-on-scroll {
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
 @keyframes titleSlideUp {
   from {
     opacity: 0;
@@ -111,6 +120,15 @@ p {
   }
 }
 
+@keyframes markerBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
 .container {
   max-width: 960px;
   margin: 0 auto;
@@ -121,7 +139,7 @@ p {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(254, 254, 254, 0.8);
+  background: rgba(248, 249, 250, 0.85);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   animation: navSlideDown 0.8s cubic-bezier(0.19, 1, 0.22, 1);
@@ -208,21 +226,24 @@ p {
 }
 
 .hero-img {
-  width: 160px;
-  height: 160px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   object-fit: cover;
   margin: 0 auto 2.5rem;
   display: block;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  animation: imageZoomRotate 1.4s cubic-bezier(0.19, 1, 0.22, 1), imageFloat 6s ease-in-out 1.4s infinite;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 3px solid rgba(0, 0, 0, 0.08);
+  animation: imageZoomRotateSpin 1.8s cubic-bezier(0.19, 1, 0.22, 1), imageFloatWild 5s ease-in-out 1.8s infinite;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
-@keyframes imageZoomRotate {
+@keyframes imageZoomRotateSpin {
   from {
     opacity: 0;
-    transform: scale(0.3) rotate(-20deg);
+    transform: scale(0.2) rotate(-180deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(10deg);
   }
   to {
     opacity: 1;
@@ -230,12 +251,18 @@ p {
   }
 }
 
-@keyframes imageFloat {
+@keyframes imageFloatWild {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(-25px) rotate(-5deg) scale(1.05);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  75% {
+    transform: translateY(-25px) rotate(5deg) scale(1.05);
   }
 }
 
@@ -292,11 +319,11 @@ p {
 @keyframes chipPop {
   from {
     opacity: 0;
-    transform: scale(0.5) translateY(30px);
+    transform: scale(0.5) translateY(30px) rotate(-10deg);
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0) rotate(0deg);
   }
 }
 
@@ -304,26 +331,26 @@ p {
   border-color: var(--accent);
   background: var(--accent);
   color: white;
-  transform: translateY(-5px) scale(1.08);
+  transform: translateY(-5px) scale(1.08) rotate(3deg);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .map-container {
   width: 100%;
-  height: 400px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  height: 450px;
+  border: 2px solid var(--border);
+  border-radius: 20px;
   margin-top: 1.5rem;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(40px);
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transform: translateY(40px) scale(0.95);
+  transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
 .map-container.loaded {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .btn {
@@ -432,7 +459,6 @@ p {
   transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
-
 .project-card:hover img {
   transform: scale(1.03) translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -595,11 +621,12 @@ p {
 .contact-info {
   margin-top: 2.5rem;
   padding: 2rem;
-  background: var(--hover);
+  background: white;
   border: 1px solid var(--border);
   border-radius: 8px;
   text-align: center;
   animation: fadeSlideUp 1s cubic-bezier(0.19, 1, 0.22, 1) 0.6s backwards;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .contact-info h3 {
@@ -654,8 +681,8 @@ p {
   }
 
   .hero-img {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
   }
 
   h1 {
@@ -685,7 +712,7 @@ p {
   }
 
   .map-container {
-    height: 280px;
+    height: 320px;
   }
 }
 

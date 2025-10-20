@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   populateSocialLinks(ENV);
   initSmoothScroll();
   initScrollAnimations();
+  initBlurEffect();
   
   setTimeout(() => {
     initMap(ENV);
@@ -66,6 +67,7 @@ function populateEnvData(ENV) {
   safeText('[data-university-text]', ENV.UNIVERSITY);
   safeText('[data-department]', ENV.DEPARTMENT);
   safeText('[data-department-text]', ENV.DEPARTMENT);
+  safeText('[data-about-text]', ENV.ABOUT_TEXT);
 
   const fullName = `${ENV.NAME || ''} ${ENV.SURNAME || ''}`.trim();
   document.querySelectorAll('[data-name-full]').forEach(el => {
@@ -96,7 +98,7 @@ function populateProjects(ENV) {
   
   ENV.PROJECTS.forEach(project => {
     const card = document.createElement('div');
-    card.className = 'project-card';
+    card.className = 'project-card blur-on-scroll';
     card.innerHTML = `
       <img src="${project.image}" alt="${project.title}" loading="lazy">
       <h3>${project.title}</h3>
@@ -145,14 +147,14 @@ function initMap(ENV) {
 
   if (typeof L === 'undefined') {
     console.error('Leaflet yüklenemedi');
-    mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:12px;color:#6b7280;font-size:14px;">Harita yüklenemedi</div>';
+    mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:20px;color:#6b7280;font-size:14px;">Harita yüklenemedi</div>';
     return;
   }
 
   const mapConfig = ENV.MAP || {};
   const lat = mapConfig.center && mapConfig.center[1] ? mapConfig.center[1] : 39.9334;
   const lng = mapConfig.center && mapConfig.center[0] ? mapConfig.center[0] : 32.8597;
-  const zoom = mapConfig.zoom || 6;
+  const zoom = mapConfig.zoom || 11;
 
   try {
     const map = L.map('map', {
@@ -161,17 +163,34 @@ function initMap(ENV) {
     }).setView([lat, lng], zoom);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19
+      maxZoom: 19,
+      minZoom: 10
     }).addTo(map);
 
-    const customIcon = L.divIcon({
-      className: 'custom-marker',
-      html: '<div style="width:20px;height:20px;background:#0a0a0a;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>',
-      iconSize: [20, 20],
-      iconAnchor: [10, 10]
-    });
+    if (ENV.WORK_PLACES && Array.isArray(ENV.WORK_PLACES)) {
+      ENV.WORK_PLACES.forEach((place, index) => {
+        const customIcon = L.divIcon({
+          className: 'custom-work-marker',
+          html: `<div style="position:relative;animation:markerBounce 2s ease-in-out infinite;animation-delay:${index * 0.3}s;">
+                   <div style="width:30px;height:30px;background:#111111;border:3px solid #fff;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:12px;">${index + 1}</div>
+                 </div>`,
+          iconSize: [30, 30],
+          iconAnchor: [15, 15]
+        });
 
-    L.marker([lat, lng], { icon: customIcon }).addTo(map);
+        const marker = L.marker([place.coordinates[1], place.coordinates[0]], { 
+          icon: customIcon 
+        }).addTo(map);
+
+        marker.bindPopup(`
+          <div style="font-family:system-ui;padding:8px;">
+            <h3 style="margin:0 0 6px;font-size:14px;font-weight:600;color:#111;">${place.name}</h3>
+            <p style="margin:0 0 4px;font-size:12px;color:#666;"><strong>${place.type}</strong></p>
+            <p style="margin:0;font-size:11px;color:#888;">${place.description}</p>
+          </div>
+        `);
+      });
+    }
 
     setTimeout(() => {
       map.invalidateSize();
@@ -181,7 +200,7 @@ function initMap(ENV) {
 
   } catch (error) {
     console.error('Harita hatası:', error);
-    mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:12px;color:#6b7280;font-size:14px;">Harita oluşturulamadı</div>';
+    mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:20px;color:#6b7280;font-size:14px;">Harita oluşturulamadı</div>';
   }
 }
 
@@ -223,5 +242,49 @@ function initScrollAnimations() {
       el.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
       observer.observe(el);
     }
+  });
+}
+
+function initBlurEffect() {
+  const blurElements = document.querySelectorAll('.blur-on-scroll');
+  
+  const blurObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const distanceFromTop = entry.boundingClientRect.top;
+      const windowHeight = window.innerHeight;
+      
+      if (distanceFromTop > windowHeight * 0.7) {
+        const blurAmount = Math.min(8, (distanceFromTop - windowHeight * 0.7) / 50);
+        entry.target.style.filter = `blur(${blurAmount}px)`;
+        entry.target.style.opacity = Math.max(0.3, 1 - blurAmount / 8);
+      } else {
+        entry.target.style.filter = 'blur(0px)';
+        entry.target.style.opacity = '1';
+      }
+    });
+  }, {
+    threshold: Array.from({length: 100}, (_, i) => i / 100)
+  });
+
+  blurElements.forEach(el => {
+    blurObserver.observe(el);
+  });
+  
+  window.addEventListener('scroll', () => {
+    blurElements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const distanceFromTop = rect.top;
+      const windowHeight = window.innerHeight;
+      
+      if (distanceFromTop > windowHeight * 0.7) {
+        const blurAmount = Math.min(8, (distanceFromTop - windowHeight * 0.7) / 50);
+        el.style.filter = `blur(${blurAmount}px)`;
+        el.style.opacity = Math.max(0.3, 1 - blurAmount / 8);
+        el.style.transition = 'filter 0.3s ease, opacity 0.3s ease';
+      } else {
+        el.style.filter = 'blur(0px)';
+        el.style.opacity = '1';
+      }
+    });
   });
 }
