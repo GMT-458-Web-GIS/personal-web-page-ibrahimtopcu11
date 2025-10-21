@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('page-loaded');
   }, 100);
 
-  const currentLang = localStorage.getItem('language') || 'tr';
-  const ENV = window.ENV[currentLang] || window.ENV.tr;
+  const currentLang = sessionStorage.getItem('language') || 'en';
+  const ENV = window.ENV[currentLang] || window.ENV.en;
 
   initNavigation();
   populateEnvData(ENV);
@@ -13,11 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
   populateSocialLinks(ENV);
   initSmoothScroll();
   initScrollAnimations();
-  initBlurEffect();
-  initWorldMapAnimation();
+  initInteractiveBackground();
+  initImageModal();
   
   setTimeout(() => {
-    initMap(ENV);
+    initMap();
   }, 1000);
 });
 
@@ -25,6 +25,11 @@ window.addEventListener('pageshow', (event) => {
   if (event.persisted) {
     document.body.classList.remove('page-leave');
     document.body.classList.add('page-loaded');
+    
+    const currentLang = sessionStorage.getItem('language') || 'en';
+    if (window.i18n) {
+      window.i18n.updateLanguage(currentLang);
+    }
   }
 });
 
@@ -78,8 +83,8 @@ window.populateEnvData = function(ENV) {
 }
 
 window.populateHobbies = function(ENV) {
-  const currentLang = localStorage.getItem('language') || 'tr';
-  const data = window.ENV[currentLang] || window.ENV.tr;
+  const currentLang = sessionStorage.getItem('language') || 'en';
+  const data = window.ENV[currentLang] || window.ENV.en;
   
   const hobbyContainer = document.querySelector('[data-hobbies]');
   
@@ -95,19 +100,19 @@ window.populateHobbies = function(ENV) {
 }
 
 window.populateProjects = function(ENV) {
-  const currentLang = localStorage.getItem('language') || 'tr';
-  const data = window.ENV[currentLang] || window.ENV.tr;
+  const currentLang = sessionStorage.getItem('language') || 'en';
+  const data = window.ENV[currentLang] || window.ENV.en;
   const projectsGrid = document.querySelector('[data-projects-grid]');
 
   if (!projectsGrid || !data.PROJECTS || !Array.isArray(data.PROJECTS)) return;
 
   projectsGrid.innerHTML = '';
   
-  const viewProjectText = data.BUTTONS?.VIEW_PROJECT || 'Projeyi Görüntüle';
+  const viewProjectText = data.BUTTONS?.VIEW_PROJECT || 'View Project';
   
   data.PROJECTS.forEach(project => {
     const card = document.createElement('div');
-    card.className = 'project-card blur-on-scroll';
+    card.className = 'project-card animate-on-scroll';
     card.innerHTML = `
       <img src="${project.image}" alt="${project.title}" loading="lazy">
       <h3>${project.title}</h3>
@@ -125,14 +130,14 @@ window.populateProjects = function(ENV) {
     projectsGrid.appendChild(card);
   });
   
-  if (window.initBlurEffect) {
-    setTimeout(() => window.initBlurEffect(), 100);
+  if (window.initScrollAnimations) {
+    setTimeout(() => window.initScrollAnimations(), 100);
   }
 }
 
 window.populateSocialLinks = function(ENV) {
-  const currentLang = localStorage.getItem('language') || 'tr';
-  const data = window.ENV[currentLang] || window.ENV.tr;
+  const currentLang = sessionStorage.getItem('language') || 'en';
+  const data = window.ENV[currentLang] || window.ENV.en;
   
   const safeLink = (value) => {
     return (typeof value === 'string' && value.trim() && value !== '#') ? value : '#';
@@ -153,17 +158,17 @@ window.populateSocialLinks = function(ENV) {
   }
 }
 
-function initMap(ENV) {
+window.currentMap = null;
+
+function initMap() {
   const mapElement = document.getElementById('map');
   
   if (!mapElement) {
-    console.log('Harita elementi bulunamadı');
     return;
   }
 
   if (typeof L === 'undefined') {
     console.error('Leaflet yüklenemedi');
-    mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:20px;color:#6b7280;font-size:14px;">Harita yüklenemedi</div>';
     return;
   }
 
@@ -172,60 +177,160 @@ function initMap(ENV) {
   const lng = mapConfig.center && mapConfig.center[0] ? mapConfig.center[0] : 32.8597;
   const zoom = mapConfig.zoom || 12;
   
-  const currentLang = localStorage.getItem('language') || 'tr';
-  const data = window.ENV[currentLang] || window.ENV.tr;
+  const currentLang = sessionStorage.getItem('language') || 'en';
 
   try {
+    if (window.currentMap) {
+      window.currentMap.remove();
+    }
+
     const map = L.map('map', {
       zoomControl: true,
       attributionControl: false,
       minZoom: 8,
-      maxZoom: 18
+      maxZoom: 18,
+      scrollWheelZoom: true
     }).setView([lat, lng], zoom);
+
+    window.currentMap = map;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       minZoom: 8
     }).addTo(map);
 
-    if (data.WORK_PLACES && Array.isArray(data.WORK_PLACES)) {
-      data.WORK_PLACES.forEach((place, index) => {
-        const customIcon = L.divIcon({
-          className: 'custom-work-marker',
-          html: `<div style="position:relative;animation:markerBounce 2s ease-in-out infinite;animation-delay:${index * 0.3}s;">
-                   <div style="width:35px;height:35px;background:#111111;border:3px solid #fff;border-radius:50%;box-shadow:0 6px 16px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:14px;">${index + 1}</div>
-                 </div>`,
-          iconSize: [35, 35],
-          iconAnchor: [17.5, 17.5]
-        });
-
-        const marker = L.marker([place.coordinates[1], place.coordinates[0]], { 
-          icon: customIcon 
-        }).addTo(map);
-
-        marker.bindPopup(`
-          <div style="font-family:system-ui;padding:12px;min-width:200px;">
-            <img src="${place.image}" alt="${place.name}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:10px;" onerror="this.style.display='none'">
-            <h3 style="margin:0 0 8px;font-size:15px;font-weight:600;color:#111;">${place.name}</h3>
-            <p style="margin:0 0 6px;font-size:12px;color:#666;"><strong>${place.type}</strong></p>
-            <p style="margin:0;font-size:11px;color:#888;line-height:1.4;">${place.description}</p>
-          </div>
-        `, {
-          maxWidth: 250,
-          className: 'custom-popup'
-        });
-      });
-    }
+    updateMapMarkers(map, currentLang);
 
     setTimeout(() => {
       map.invalidateSize();
       mapElement.classList.add('loaded');
-      console.log('Harita başarıyla yüklendi');
     }, 200);
 
   } catch (error) {
     console.error('Harita hatası:', error);
-    mapElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f5f5f5;border-radius:20px;color:#6b7280;font-size:14px;">Harita oluşturulamadı</div>';
+  }
+}
+
+window.updateMapMarkers = function(map, lang) {
+  if (!map) return;
+  
+  map.eachLayer(layer => {
+    if (layer instanceof L.Marker) {
+      map.removeLayer(layer);
+    }
+  });
+  
+  const data = window.ENV[lang] || window.ENV.en;
+  
+  if (data.WORK_PLACES && Array.isArray(data.WORK_PLACES)) {
+    data.WORK_PLACES.forEach((place, index) => {
+      const customIcon = L.divIcon({
+        className: 'custom-work-marker',
+        html: `<div style="position:relative;animation:markerBounce 2s ease-in-out infinite;animation-delay:${index * 0.3}s;">
+                 <div style="width:35px;height:35px;background:#111111;border:3px solid #fff;border-radius:50%;box-shadow:0 6px 16px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:14px;">${index + 1}</div>
+               </div>`,
+        iconSize: [35, 35],
+        iconAnchor: [17.5, 17.5]
+      });
+
+      const marker = L.marker([place.coordinates[1], place.coordinates[0]], { 
+        icon: customIcon 
+      }).addTo(map);
+
+      marker.bindPopup(`
+        <div class="popup-scroll-container">
+          <img src="${place.image}" 
+               alt="${place.name}" 
+               class="popup-image-clickable"
+               data-full-image="${place.image}"
+               style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:12px;cursor:pointer;transition:transform 0.3s;" 
+               onerror="this.style.display='none'"
+               onmouseover="this.style.transform='scale(1.05)'"
+               onmouseout="this.style.transform='scale(1)'">
+          <h3 style="margin:0 0 8px;font-size:16px;font-weight:600;color:#111;line-height:1.3;">${place.name}</h3>
+          <p style="margin:0 0 8px;font-size:13px;color:#666;"><strong>${place.type}</strong></p>
+          <p style="margin:0;font-size:12px;color:#888;line-height:1.5;">${place.description}</p>
+        </div>
+      `, {
+        maxWidth: 280,
+        maxHeight: 400,
+        className: 'custom-popup-scrollable',
+        autoPan: true,
+        autoPanPadding: [50, 50]
+      });
+      
+      marker.on('popupopen', function() {
+        const popupImages = document.querySelectorAll('.popup-image-clickable');
+        popupImages.forEach(img => {
+          img.addEventListener('click', function() {
+            const fullImageSrc = this.getAttribute('data-full-image');
+            openImageModal(fullImageSrc);
+          });
+        });
+      });
+    });
+  }
+}
+
+function initImageModal() {
+  const modalHTML = `
+    <div id="imageModal" class="image-modal">
+      <span class="image-modal-close">&times;</span>
+      <img class="image-modal-content" id="modalImage">
+      <div class="image-modal-caption"></div>
+    </div>
+  `;
+  
+  if (!document.getElementById('imageModal')) {
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+  
+  const closeBtn = document.querySelector('.image-modal-close');
+  const modal = document.getElementById('imageModal');
+  
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeImageModal);
+  }
+  
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeImageModal();
+      }
+    });
+  }
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeImageModal();
+    }
+  });
+}
+
+function openImageModal(imageSrc) {
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  
+  if (modal && modalImg) {
+    modal.style.display = 'flex';
+    modalImg.src = imageSrc;
+    document.body.style.overflow = 'hidden';
+    
+    setTimeout(() => {
+      modal.classList.add('active');
+    }, 10);
+  }
+}
+
+function closeImageModal() {
+  const modal = document.getElementById('imageModal');
+  
+  if (modal) {
+    modal.classList.remove('active');
+    setTimeout(() => {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 300);
   }
 }
 
@@ -264,80 +369,127 @@ function initSmoothScroll() {
 
 function initScrollAnimations() {
   const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -80px 0px'
+    threshold: 0.15,
+    rootMargin: '0px 0px -100px 0px'
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('in-view');
       }
     });
   }, observerOptions);
 
-  document.querySelectorAll('.section, .social-card, .project-card').forEach(el => {
-    if (!el.style.animation) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-      observer.observe(el);
-    }
+  document.querySelectorAll('.animate-on-scroll, .section, .social-card, .project-card, h2, h3, p, .chips').forEach(el => {
+    observer.observe(el);
   });
 }
 
-window.initBlurEffect = function() {
-  const blurElements = document.querySelectorAll('.blur-on-scroll');
+function initInteractiveBackground() {
+  const canvas = document.getElementById('interactive-canvas');
+  if (!canvas) return;
   
-  function updateBlur() {
-    blurElements.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      const distanceFromTop = rect.top;
-      const windowHeight = window.innerHeight;
-      
-      if (distanceFromTop > windowHeight * 0.6) {
-        const blurAmount = Math.min(10, (distanceFromTop - windowHeight * 0.6) / 40);
-        el.style.filter = `blur(${blurAmount}px)`;
-        el.style.opacity = Math.max(0.2, 1 - blurAmount / 10);
-      } else {
-        el.style.filter = 'blur(0px)';
-        el.style.opacity = '1';
-      }
-    });
+  const ctx = canvas.getContext('2d');
+  
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
   
-  const blurObserver = new IntersectionObserver((entries) => {
-    updateBlur();
-  }, {
-    threshold: Array.from({length: 20}, (_, i) => i / 20)
-  });
-
-  blurElements.forEach(el => {
-    el.style.transition = 'filter 0.3s ease, opacity 0.3s ease';
-    blurObserver.observe(el);
-  });
+  resizeCanvas();
   
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        updateBlur();
-        ticking = false;
-      });
-      ticking = true;
+  const particles = [];
+  const particleCount = 100;
+  const mouse = { x: null, y: null, radius: 150 };
+  
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 3 + 1;
+      this.baseX = this.x;
+      this.baseY = this.y;
+      this.density = Math.random() * 30 + 1;
+      this.distance = 0;
     }
-  }, { passive: true });
-}
-
-function initWorldMapAnimation() {
-  const worldMapBg = document.querySelector('.world-map-bg');
-  if (!worldMapBg) return;
+    
+    update() {
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const forceDirectionX = dx / distance;
+      const forceDirectionY = dy / distance;
+      const maxDistance = mouse.radius;
+      const force = (maxDistance - distance) / maxDistance;
+      const directionX = forceDirectionX * force * this.density;
+      const directionY = forceDirectionY * force * this.density;
+      
+      if (distance < mouse.radius) {
+        this.x -= directionX;
+        this.y -= directionY;
+      } else {
+        if (this.x !== this.baseX) {
+          const dx = this.x - this.baseX;
+          this.x -= dx / 10;
+        }
+        if (this.y !== this.baseY) {
+          const dy = this.y - this.baseY;
+          this.y -= dy / 10;
+        }
+      }
+    }
+    
+    draw() {
+      ctx.fillStyle = 'rgba(17, 17, 17, 0.6)';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
   
-  let scrollY = 0;
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
   
-  window.addEventListener('scroll', () => {
-    scrollY = window.pageYOffset;
-    worldMapBg.style.transform = `translateY(${scrollY * 0.3}px) scale(1.1)`;
-  }, { passive: true });
+  function connectParticles() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 120) {
+          ctx.strokeStyle = `rgba(17, 17, 17, ${0.2 * (1 - distance / 120)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    particles.forEach(particle => {
+      particle.update();
+      particle.draw();
+    });
+    
+    connectParticles();
+    requestAnimationFrame(animate);
+  }
+  
+  animate();
+  
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+  });
+  
+  window.addEventListener('resize', resizeCanvas);
 }

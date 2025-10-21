@@ -1,45 +1,45 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="İbrahim Topcu'nun projeleri">
-  <title>Projeler — İbrahim Topcu</title>
+  <meta name="description" content="İbrahim Topcu's Projects">
+  <title>Projects — İbrahim Topcu</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="world-map-bg"></div>
-  
+  <canvas id="interactive-canvas"></canvas>
+ 
   <div class="lang-switcher">
-    <button class="lang-btn active" data-lang="tr">TR</button>
-    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="tr">TR</button>
+    <button class="lang-btn active" data-lang="en">EN</button>
   </div>
-  
+ 
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-link" data-i18n="nav.home">Ana Sayfa</a>
-      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projeler</a>
-      <a href="social.html" class="nav-link" data-i18n="nav.contact">İletişim</a>
+      <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projects</a>
+      <a href="social.html" class="nav-link" data-i18n="nav.contact">Contact</a>
     </div>
   </nav>
-
+  
   <main class="container">
-    <section class="section blur-on-scroll">
-      <h3 data-i18n="sections.portfolio">Portföy</h3>
-      <h1 data-i18n="nav.projects">Projelerim</h1>
-      <p class="page-subtitle" data-i18n="sections.projectsSubtitle">Geomatik mühendisliği ve web geliştirme alanlarında gerçekleştirdiğim projeler</p>
+    <section class="section animate-on-scroll">
+      <h3 data-i18n="sections.portfolio">Portfolio</h3>
+      <h1 data-i18n="nav.projects">Projects</h1>
+      <p class="page-subtitle animate-on-scroll" data-i18n="sections.projectsSubtitle">Projects I have carried out in the fields of geomatics engineering and web development</p>
      
       <div class="projects-grid" data-projects-grid></div>
     </section>
   </main>
-
+  
   <footer class="footer">
     <div class="container">
       <p>© 2025 <span data-name-full>İbrahim Topcu</span></p>
       <p>GitHub Pages</p>
     </div>
   </footer>
-
+  
   <script src="env.js"></script>
   <script src="i18n.js"></script>
   <script src="script.js"></script>

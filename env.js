@@ -42,7 +42,7 @@ window.ENV = {
     
     WORK_PLACES: [
       {
-        name: "HGG İnşaat",
+        name: "HGG İnşaat A.Ş.",
         type: "Staj",
         coordinates: [32.8095, 39.9508],
         description: "Özel sektör staj deneyimi. İnşaat projelerinde harita ve ölçüm çalışmaları.",
@@ -62,7 +62,7 @@ window.ENV = {
         title: "OSM Tabanlı Ağ ve En Kısa Yol Analizi",
         description: "OpenStreetMap verileriyle ağ analizi ve rota optimizasyonu",
         tech: "Python, OSMnx, GeoPandas, NetworkX",
-        image: "assets/proj1.jpg",
+        image: "assets/proj1.png",
         link: "https://github.com/ibrahimtopcu11"
       },
       {
@@ -143,14 +143,14 @@ window.ENV = {
     
     WORK_PLACES: [
       {
-        name: "HGG Construction",
+        name: "HGG Construction Inc",
         type: "Internship",
         coordinates: [32.8095, 39.9508],
         description: "Private sector internship experience. Mapping and surveying work in construction projects.",
         image: "assets/work1.jpg"
       },
       {
-        name: "Ministry of Transport and Infrastructure",
+        name: "T.C. Ulaştırma ve Altyapı Bakanlığı",
         type: "Internship",
         coordinates: [32.8551, 39.9208],
         description: "Public institution internship experience. Infrastructure projects and mapping applications.",
@@ -163,7 +163,7 @@ window.ENV = {
         title: "OSM-Based Network and Shortest Path Analysis",
         description: "Network analysis and route optimization with OpenStreetMap data",
         tech: "Python, OSMnx, GeoPandas, NetworkX",
-        image: "assets/proj1.jpg",
+        image: "assets/proj1.png",
         link: "https://github.com/ibrahimtopcu11"
       },
       {

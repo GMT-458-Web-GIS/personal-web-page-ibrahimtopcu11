@@ -1,89 +1,89 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="İbrahim Topcu ile iletişime geçin">
-  <title>İletişim — İbrahim Topcu</title>
+  <meta name="description" content="Contact İbrahim Topcu">
+  <title>Contact — İbrahim Topcu</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="world-map-bg"></div>
-  
+  <canvas id="interactive-canvas"></canvas>
+ 
   <div class="lang-switcher">
-    <button class="lang-btn active" data-lang="tr">TR</button>
-    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="tr">TR</button>
+    <button class="lang-btn active" data-lang="en">EN</button>
   </div>
-  
+ 
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-link" data-i18n="nav.home">Ana Sayfa</a>
-      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projeler</a>
-      <a href="social.html" class="nav-link" data-i18n="nav.contact">İletişim</a>
+      <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projects</a>
+      <a href="social.html" class="nav-link" data-i18n="nav.contact">Contact</a>
     </div>
   </nav>
-
+  
   <main class="container">
-    <section class="section blur-on-scroll">
-      <h3 data-i18n="sections.contactTitle">Bağlantılar</h3>
-      <h1 data-i18n="nav.contact">İletişim</h1>
-      <p class="page-subtitle" data-i18n="sections.contactSubtitle">Benimle iletişime geçmek için aşağıdaki platformları kullanabilirsiniz</p>
+    <section class="section animate-on-scroll">
+      <h3 data-i18n="sections.contactTitle">Links</h3>
+      <h1 data-i18n="nav.contact">Contact</h1>
+      <p class="page-subtitle animate-on-scroll" data-i18n="sections.contactSubtitle">You can use the following platforms to contact me</p>
      
       <div class="social-grid">
-        <a class="social-card" data-link="instagram" href="#" target="_blank" rel="noopener">
+        <a class="social-card animate-on-scroll" data-link="instagram" href="#" target="_blank" rel="noopener">
           <div class="social-icon-wrapper">
             <img src="assets/instagram.svg" alt="Instagram" class="social-icon">
           </div>
           <div class="social-info">
             <h3 data-social-title="instagram">Instagram</h3>
-            <p class="social-desc" data-social-desc="instagram">Fotoğraf ve günlük paylaşımlar</p>
+            <p class="social-desc" data-social-desc="instagram">Photos and daily posts</p>
           </div>
           <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
           </svg>
         </a>
-
-        <a class="social-card" data-link="linkedin" href="#" target="_blank" rel="noopener">
+        
+        <a class="social-card animate-on-scroll" data-link="linkedin" href="#" target="_blank" rel="noopener">
           <div class="social-icon-wrapper">
             <img src="assets/linkedin.svg" alt="LinkedIn" class="social-icon">
           </div>
           <div class="social-info">
             <h3 data-social-title="linkedin">LinkedIn</h3>
-            <p class="social-desc" data-social-desc="linkedin">Profesyonel bağlantılar</p>
+            <p class="social-desc" data-social-desc="linkedin">Professional connections</p>
           </div>
           <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
           </svg>
         </a>
-
-        <a class="social-card" data-link="github" href="#" target="_blank" rel="noopener">
+        
+        <a class="social-card animate-on-scroll" data-link="github" href="#" target="_blank" rel="noopener">
           <div class="social-icon-wrapper">
             <img src="assets/github.svg" alt="GitHub" class="social-icon">
           </div>
           <div class="social-info">
             <h3 data-social-title="github">GitHub</h3>
-            <p class="social-desc" data-social-desc="github">Kod ve açık kaynak projeler</p>
+            <p class="social-desc" data-social-desc="github">Code and open source projects</p>
           </div>
           <svg class="social-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 17L17 7M17 7H7M17 7v10"/>
           </svg>
         </a>
       </div>
-
-      <div class="contact-info">
-        <h3 data-i18n="sections.contactInfo">Doğrudan İletişim</h3>
-        <p data-i18n="sections.contactText">Proje işbirlikleri ve sorularınız için sosyal medya hesaplarımdan bana ulaşabilirsiniz.</p>
+      
+      <div class="contact-info animate-on-scroll">
+        <h3 data-i18n="sections.contactInfo">Direct Contact</h3>
+        <p data-i18n="sections.contactText">You can reach me from my social media accounts for project collaborations and your questions.</p>
       </div>
     </section>
   </main>
-
+  
   <footer class="footer">
     <div class="container">
       <p>© 2025 <span data-name-full>İbrahim Topcu</span></p>
       <p>GitHub Pages</p>
     </div>
   </footer>
-
+  
   <script src="env.js"></script>
   <script src="i18n.js"></script>
   <script src="script.js"></script>

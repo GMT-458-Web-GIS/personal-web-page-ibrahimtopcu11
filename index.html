@@ -1,76 +1,76 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="İbrahim Topcu - Hacettepe Üniversitesi Geomatik Mühendisliği öğrencisi">
+  <meta name="description" content="İbrahim Topcu - Hacettepe University Geomatics Engineering Student">
   <title>İbrahim Topcu</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="world-map-bg"></div>
+  <canvas id="interactive-canvas"></canvas>
   
   <div class="lang-switcher">
-    <button class="lang-btn active" data-lang="tr">TR</button>
-    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="tr">TR</button>
+    <button class="lang-btn active" data-lang="en">EN</button>
   </div>
-  
+ 
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-link" data-i18n="nav.home">Ana Sayfa</a>
-      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projeler</a>
-      <a href="social.html" class="nav-link" data-i18n="nav.contact">İletişim</a>
+      <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+      <a href="projects.html" class="nav-link" data-i18n="nav.projects">Projects</a>
+      <a href="social.html" class="nav-link" data-i18n="nav.contact">Contact</a>
     </div>
   </nav>
-
+  
   <main class="container">
     <section class="hero">
       <img src="assets/me.jpg" alt="İbrahim Topcu" class="hero-img">
       <div class="hero-content">
         <h1 data-name-full>İbrahim Topcu</h1>
         <p class="hero-subtitle" data-i18n="hero.subtitle">
-          Geomatik mühendisliği öğrencisi. Web geliştirme, harita teknolojileri ve veri odaklı projelerle ilgileniyorum.
+          Geomatics engineering student. Interested in web development, mapping technologies and data-driven projects.
         </p>
         <button class="btn scroll-btn" data-scroll-to="#about">
-          <span data-i18n="buttons.explore">Devamını Keşfet</span>
+          <span data-i18n="buttons.explore">Explore More</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
           </svg>
         </button>
         <div class="scroll-tip">
           <span class="scroll-dot"></span>
-          <span data-i18n="buttons.scrollTip">Aşağı Kaydır</span>
+          <span data-i18n="buttons.scrollTip">Scroll Down</span>
         </div>
       </div>
     </section>
-
-    <section id="about" class="section about blur-on-scroll">
-      <h3 data-i18n="sections.about">Hakkımda</h3>
+    
+    <section id="about" class="section about animate-on-scroll">
+      <h3 data-i18n="sections.about">About Me</h3>
       <h2>
-        <span data-university>Hacettepe Üniversitesi</span><br>
-        <span data-department>Geomatik Mühendisliği</span>
+        <span data-university>Hacettepe University</span><br>
+        <span data-department>Geomatics Engineering</span>
       </h2>
       <p data-about-text>
-        Hacettepe Üniversitesi Geomatik Mühendisliği bölümünde lisans eğitimime devam ediyorum.
+        I am pursuing my undergraduate education in Geomatics Engineering at Hacettepe University.
       </p>
      
-      <h3 style="margin-top: 3rem;" data-i18n="sections.hobbies">İlgi Alanlarım</h3>
-      <div class="chips" data-hobbies></div>
-
-      <h3 style="margin-top: 3rem;" data-i18n="sections.workPlaces">Çalıştığım Yerler</h3>
-      <p data-i18n="sections.workDesc">Staj deneyimlerimde hem özel sektörde hem de kamu kurumlarında çalışma fırsatı buldum.</p>
+      <h3 style="margin-top: 3rem;" data-i18n="sections.hobbies">Interests</h3>
+      <div class="chips animate-on-scroll" data-hobbies></div>
+      
+      <h3 style="margin-top: 3rem;" data-i18n="sections.workPlaces">Work Experience</h3>
+      <p data-i18n="sections.workDesc">In my internship experiences, I had the opportunity to work in both the private sector and public institutions.</p>
       <div id="map" class="map-container"></div>
     </section>
   </main>
-
+  
   <footer class="footer">
     <div class="container">
       <p>© 2025 <span data-name-full>İbrahim Topcu</span></p>
       <p>GitHub Pages</p>
     </div>
   </footer>
-
+  
   <script src="env.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="i18n.js"></script>
