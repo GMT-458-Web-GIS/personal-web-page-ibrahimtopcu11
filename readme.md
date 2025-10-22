@@ -19,20 +19,20 @@
 <div align="center">
 
 ### Desktop View
-![Desktop Home](screenshots/desktop-home.png)
+![Desktop Home1](img/1.png)
 *Home page with interactive particle background and hero section*
-
-![Desktop Projects](screenshots/desktop-projects.png)
+![Desktop Home2](img/2.png)
+![Desktop Projects](img/3.png)
 *Projects showcase with hover effects*
 
-![Desktop Map](screenshots/desktop-map.png)
+![Desktop Map](img/4.png)
 *Interactive map with work experience markers*
 
 ### Mobile View
 <p>
-<img src="screenshots/mobile-home.png" width="250" alt="Mobile Home">
-<img src="screenshots/mobile-projects.png" width="250" alt="Mobile Projects">
-<img src="screenshots/mobile-contact.png" width="250" alt="Mobile Contact">
+<img src="img/5.png" width="250" alt="Mobile Home">
+<img src="img/6.png" width="250" alt="Mobile Projects">
+<img src="img/7.png" width="250" alt="Mobile Contact">
 </p>
 
 ##  Key Features
