@@ -69,14 +69,14 @@ window.ENV = {
         title: "OpenLayers ile İnteraktif Web Harita",
         description: "Çoklu katman destekli modern web harita uygulaması",
         tech: "OpenLayers, JavaScript, HTML/CSS",
-        image: "assets/proj2.jpg",
+        image: "assets/proj2.png",
         link: "https://github.com/ibrahimtopcu11"
       },
       {
         title: "QGIS + PostGIS Afet Yönetimi Sistemi",
         description: "Gerçek zamanlı afet takip ve koordinasyon platformu",
         tech: "Node.js, React, PostGIS, Leaflet",
-        image: "assets/proj3.jpg",
+        image: "assets/proj3.png",
         link: "https://github.com/ibrahimtopcu11"
       }
     ],
@@ -170,14 +170,14 @@ window.ENV = {
         title: "Interactive Web Map with OpenLayers",
         description: "Modern web mapping application with multi-layer support",
         tech: "OpenLayers, JavaScript, HTML/CSS",
-        image: "assets/proj2.jpg",
+        image: "assets/proj2.png",
         link: "https://github.com/ibrahimtopcu11"
       },
       {
         title: "QGIS + PostGIS Disaster Management System",
         description: "Real-time disaster tracking and coordination platform",
         tech: "Node.js, React, PostGIS, Leaflet",
-        image: "assets/proj3.jpg",
+        image: "assets/proj3.png",
         link: "https://github.com/ibrahimtopcu11"
       }
     ],

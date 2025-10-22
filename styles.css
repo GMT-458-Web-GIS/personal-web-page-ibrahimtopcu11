@@ -617,19 +617,29 @@ p.in-view {
 
 .project-card img {
   width: 100%;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
+  height: 400px;
+  object-fit: contain;
+  background: #f8f9fa;
+  border-radius: 12px;
   margin-bottom: 1.5rem;
   transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  cursor: pointer;
 }
 
 .project-card:hover img {
-  transform: scale(1.03) translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05) translateY(-10px) rotateZ(2deg);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
 }
 
+@media (max-width: 768px) {
+  .project-card img {
+    height: 280px;
+    padding: 15px;
+  }
+}
 .project-card h3 {
   font-size: 1.5rem;
   margin-bottom: 0.75rem;

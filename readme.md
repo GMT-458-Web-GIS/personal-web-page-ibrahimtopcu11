@@ -48,24 +48,6 @@
 
 
 
----
-
-##  Project Structure
-```
-portfolio-website/
-├── index.html              # Home page with hero, about, and map
-├── projects.html           # Project showcase page
-├── social.html             # Contact and social links page
-├── styles.css              # Main stylesheet with animations
-├── script.js               # Core functionality and animations
-├── i18n.js                 # Multilingual system
-├── env.js                  # Configuration and content data
-└── assets/                 # Images and icons
-    ├── me.jpg
-    ├── work1.jpg, work2.jpg
-    ├── proj1.jpg, proj2.jpg, proj3.jpg
-    └── instagram.svg, linkedin.svg, github.svg
-```
 
 ---
 
