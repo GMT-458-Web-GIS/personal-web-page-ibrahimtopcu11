@@ -9,7 +9,7 @@
 
 **Modern, interactive portfolio website with multilingual support and interactive maps**
 
-[Live Demo](https://gmt-458-web-gis.github.io/personal-web-page-ibrahimtopcu11/) • [Report Bug](https://gmt-458-web-gis.github.io/personal-web-page-ibrahimtopcu11/)
+[Project link](https://gmt-458-web-gis.github.io/personal-web-page-ibrahimtopcu11/) • [Report Bug](https://gmt-458-web-gis.github.io/personal-web-page-ibrahimtopcu11/)
 
 </div>
 
